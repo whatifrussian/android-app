@@ -63,6 +63,8 @@ public class App {
             //return GetHTML.get(ARTICLES_URL);
         }
 
+        
+
         //This class used for synced getting html in android
         //In android you can't freeze main thread with GET requests
         //So I сreated this cheat

@@ -21,6 +21,8 @@ public class ArticleActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
 
+        App.mainActivity = this;
+
         Log.d(App.TAG, "Reading articles.");
         try {
             for (ArticleInfo info : App.API.getArticleInfos()) {
