@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">What if?</string>
+
+    <string name="first_button">« first</string>
+    <string name="prev_button">‹ prev</string>
+    <string name="list_button" translatable="false">#1</string>
+    <string name="next_button">next ›</string>
+    <string name="last_button">last »</string>
 </resources>

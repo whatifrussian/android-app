@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Что если?</string>
+    <string name="first_button">« перв</string>
+    <string name="last_button">посл »</string>
+    <string name="next_button">след ›</string>
+    <string name="prev_button">‹ пред</string>
+</resources>
