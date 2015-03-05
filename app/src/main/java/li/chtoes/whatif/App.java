@@ -18,17 +18,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-//Class for static objects as
+/**
+ * Class for static objects as mainActivity or app tag
+ */
 public class App {
     public static final String TAG = "whatif";
     public static ArticleActivity mainActivity;
 
-    //Class for chtoes.li API
-    //It doesn't exists
+    /**
+     * Class for chtoes.li API
+     */
     public static class API {
-        public static final String ARTICLES_URL = "https://chtoes.li/articles.json";
+        public static final String MAIN_SITE_URL = "https://chtoes.li/";
+        public static final String ARTICLES_URL = MAIN_SITE_URL + "articles.json";
+        public static final String ARTICLE_TEMPLATE = MAIN_SITE_URL + "%1$s/";
+
         private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
+        /**
+         * Gets info about avaible {@link Article}s.
+         *
+         * @return avaible articles infos
+         * @throws IOException
+         * @see li.chtoes.whatif.Article
+         * @see li.chtoes.whatif.ArticleInfo
+         */
         public static List<ArticleInfo> getArticleInfos() throws IOException {
             // Converting string to stream and creating JsonReader
             String jsonResponse = getArticleInfosJSON();
@@ -53,7 +67,10 @@ public class App {
             return infos;
         }
 
-        //Get json of articles
+        /**
+         * Get json of articles
+         * @return json string
+         */
         private static String getArticleInfosJSON() {
             return  "[ " +
                         "{ \"title\": \"Микроволны\", \"id\": \"microwaves\" }," +
@@ -63,58 +80,101 @@ public class App {
             //return GetHTML.get(ARTICLES_URL);
         }
 
-        
+        /**
+         * Method for getting cutted html for app WebView
+         *
+         * @param info contains basic info about article
+         * @param articleFragment fragment for callbacks
+         */
+        public static void getArticle(final ArticleInfo info, final ArticleFragment articleFragment) {
+             new AsyncTask<String, Void, String>() {
+                 @Override
+                 protected String doInBackground(String... params) {
+                     String id = params[0];
 
-        //This class used for synced getting html in android
-        //In android you can't freeze main thread with GET requests
-        //So I сreated this cheat
+                     // Not really cool. Lazy.
+                     String html = GetHTML.get(String.format(ARTICLE_TEMPLATE, id), false);
+
+                     return html;
+                 }
+
+                 @Override
+                 protected void onPreExecute() {
+                     super.onPreExecute();
+                     articleFragment.onPreExecute();
+                 }
+
+                 @Override
+                 protected void onPostExecute(String s) {
+                     super.onPostExecute(s);
+
+                     Article a = new Article(info);
+                     a.setContent(s);
+
+                     articleFragment.onGetArticle(a);
+                 }
+             }.execute(info.getId());
+        }
+
+        /**
+         * This class used for synced getting html in android
+         * In android you can't freeze main thread with GET requests
+         * So I сreated this cheat
+         */
         private static class GetHTML extends AsyncTask<String, Void, String> {
-            public String response;         // Result
+            public String response;
             public boolean isSuccess;       // Was operation successful or not
 
-            public static String get(String url) {
-                GetHTML g =  new GetHTML();
-                try {
-                    return g.execute(new String[] {url}).get();
-                } catch (InterruptedException ignored) {
-                } catch (ExecutionException ignored) { }
-
-                return "";
-            }
-
-            @Override
-            protected String doInBackground(String... strings) {
-                HttpClient client = new DefaultHttpClient();
-                HttpGet request = new HttpGet(strings[0]);
-                HttpResponse response;
-
-                String html = "";
-                try {
-                    response = client.execute(request);
-
-                    InputStream in = response.getEntity().getContent();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                    StringBuilder str = new StringBuilder();
-                    String line;
-                    while((line = reader.readLine()) != null)
-                    {
-                        str.append(line);
+            /**
+             * Simple method for getting html in one
+             * string.
+             *
+             * @param url absolute url of page
+             * @return html of the page
+             */
+            public static String get(String url, boolean useTask) {
+                if (useTask) {
+                    GetHTML g = new GetHTML();
+                    try {
+                        return g.execute(new String[]{url}).get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
                     }
-                    in.close();
-                    html = str.toString();
+                } else {
+                    HttpClient client = new DefaultHttpClient();
+                    HttpGet request = new HttpGet(url);
+                    HttpResponse response;
 
-                } catch (IOException ignored) {
-                    isSuccess = false;
-                } finally {
-                    isSuccess = true;
+                    String html = "";
+                    try {
+                        response = client.execute(request);
+
+                        InputStream in = response.getEntity().getContent();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                        StringBuilder str = new StringBuilder();
+                        String line;
+                        while((line = reader.readLine()) != null)
+                        {
+                            str.append(line);
+                        }
+                        in.close();
+                        html = str.toString();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    return html;
                 }
 
                 return "";
             }
 
             @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
+            protected String doInBackground(String... strings) {
+                return get(strings[0], false);
             }
 
             @Override
