@@ -42,7 +42,7 @@ public class App {
         /**
          * Gets info about avaible {@link Article}s.
          *
-         * @return avaible articles infos
+         * @return available articles infos
          * @throws IOException
          * @see li.chtoes.whatif.Article
          * @see li.chtoes.whatif.ArticleInfo
