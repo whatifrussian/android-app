@@ -7,6 +7,10 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -94,8 +98,15 @@ public class App {
 
                      // Not really cool. Lazy.
                      String html = GetHTML.get(String.format(ARTICLE_TEMPLATE, id), false);
+                     Document doc = Jsoup.parse(html);
 
-                     return html;
+                     Elements forRemove = doc.select("header, footer, " +
+                                                     "ul.menu-page, " +
+                                                     "div[class^=border], " +
+                                                     "div[class^=social]");
+                     forRemove.remove();
+
+                     return doc.html();
                  }
 
                  @Override
