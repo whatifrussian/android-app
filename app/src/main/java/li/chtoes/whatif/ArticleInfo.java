@@ -6,30 +6,30 @@ import java.io.IOException;
 
 //Basic info about article
 public class ArticleInfo {
-    private String mId;         // Id of article, e.g. "microwaves"
-    private String mTitle;      // Title of article, e.g. "Микроволны"
+    private String id;         // Id of article, e.g. "microwaves"
+    private String title;      // Title of article, e.g. "Микроволны"
 
-    public ArticleInfo() { mId = ""; mTitle = ""; }
+    public ArticleInfo() { id = ""; title = ""; }
 
     public ArticleInfo(String id, String title) {
-        this.mId = id;
-        this.mTitle = title;
+        this.id = id;
+        this.title = title;
     }
 
     public String getId() {
-        return mId;
+        return id;
     }
 
     public void setId(String mId) {
-        this.mId = mId;
+        this.id = mId;
     }
 
     public String getTitle() {
-        return mTitle;
+        return title;
     }
 
     public void setTitle(String mTitle) {
-        this.mTitle = mTitle;
+        this.title = mTitle;
     }
 
     public static ArticleInfo fromJsonReader(JsonReader jsonReader) throws IOException {

@@ -6,4 +6,6 @@
     <string name="list_button" translatable="false">#1</string>
     <string name="next_button">next ›</string>
     <string name="last_button">last »</string>
+    <string name="reading_article">Reading article</string>
+    <string name="please_wait">Please wait</string>
 </resources>
