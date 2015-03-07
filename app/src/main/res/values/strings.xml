@@ -8,4 +8,5 @@
     <string name="last_button">last »</string>
     <string name="reading_article">Reading article</string>
     <string name="please_wait">Please wait</string>
+    <string name="articles_list_name">Articles list</string>
 </resources>
