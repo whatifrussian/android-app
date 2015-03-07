@@ -13,8 +13,6 @@ public class ArticleInfo {
     private String title;      // Title of article, e.g. "Микроволны"
     private int index;        // Index in array
 
-    public ArticleInfo() { id = ""; title = ""; index = -1; }
-
     public ArticleInfo(String id, String title) {
         this.id = id;
         this.title = title;
