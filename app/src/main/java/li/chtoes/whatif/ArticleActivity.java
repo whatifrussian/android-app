@@ -1,5 +1,6 @@
 package li.chtoes.whatif;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -66,7 +67,8 @@ public class ArticleActivity extends ActionBarActivity {
         } );
         articlesListButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {            }
+            public void onClick(View v) {
+            }
         });
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +93,16 @@ public class ArticleActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+        super.onBackPressed();
     }
 
     public void openArticle(ArticleInfo info) {
