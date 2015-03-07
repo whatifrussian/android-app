@@ -60,7 +60,10 @@ public class App {
             try {
                 jsonReader.beginArray();
                 while (jsonReader.hasNext()) {
-                    infos.add(ArticleInfo.fromJsonReader(jsonReader));
+                    ArticleInfo articleInfo = ArticleInfo.fromJsonReader(jsonReader);
+                    articleInfo.setNumber(infos.size());
+
+                    infos.add(articleInfo);
                 }
                 jsonReader.endArray();
             } finally {
