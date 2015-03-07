@@ -14,6 +14,8 @@ import android.widget.Button;
 
 
 public class ArticleActivity extends ActionBarActivity {
+    private static final int REQUEST_CODE_GET_NUMBER = 1;
+
     private Button firstButton;
     private Button prevButton;
     private Button articlesListButton;
@@ -65,6 +67,8 @@ public class ArticleActivity extends ActionBarActivity {
         articlesListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent myIntent = new Intent(ArticleActivity.this, ArticlesListActivity.class);
+                startActivityForResult(myIntent, REQUEST_CODE_GET_NUMBER);
             }
         });
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +86,16 @@ public class ArticleActivity extends ActionBarActivity {
                 openArticle(App.API.getLastArticleInfo());
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_CODE_GET_NUMBER) {
+                int index = data.getIntExtra("number", currentArticle.getIndex());
+                openArticle(App.API.getArticleInfoByIndex(index));
+            }
+        }
     }
 
 
