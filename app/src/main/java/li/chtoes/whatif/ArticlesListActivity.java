@@ -30,7 +30,7 @@ public class ArticlesListActivity extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         String s = (String) getListAdapter().getItem(position);
         Intent intent = new Intent();
-        intent.putExtra("number", Integer.parseInt(s.replaceAll("[\\D]", "")));
+        intent.putExtra("number", Integer.parseInt(s.replaceAll("[\\D]", "")) - 1);
         setResult(RESULT_OK, intent);
         finish();
     }
