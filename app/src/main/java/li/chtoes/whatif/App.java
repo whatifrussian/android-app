@@ -9,7 +9,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
@@ -40,7 +39,7 @@ public class App {
         private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
         /**
-         * Gets info about avaible {@link Article}s.
+         * Gets info about available {@link Article}s.
          *
          * @return available articles infos
          * @throws IOException
@@ -134,7 +133,6 @@ public class App {
          */
         private static class GetHTML extends AsyncTask<String, Void, String> {
             public String response;
-            public boolean isSuccess;       // Was operation successful or not
 
             /**
              * Simple method for getting html in one
