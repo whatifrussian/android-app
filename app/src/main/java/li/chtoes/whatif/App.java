@@ -80,7 +80,11 @@ public class App {
         private static String getArticleInfosJSON() {
             return  "[ " +
                         "{ \"title\": \"Микроволны\", \"id\": \"microwaves\" }," +
-                        "{ \"title\": \"Уборка снега\", \"id\": \"snow-removal\" }" +
+                        "{ \"title\": \"Уборка снега\", \"id\": \"snow-removal\" }," +
+                        "{ \"title\": \"Черная дыра вместо Луны\", \"id\": \"black-hole-moon\" }," +
+                        "{ \"title\": \"Zippo’фон\", \"id\": \"zippo-phone\" }," +
+                        "{ \"title\": \"Перетягивание каната\", \"id\": \"tug-of-war\" }," +
+                        "{ \"title\": \"Лестница\", \"id\": \"stairs\" }" +
                     "]";
 
             //return GetHTML.get(ARTICLES_URL);

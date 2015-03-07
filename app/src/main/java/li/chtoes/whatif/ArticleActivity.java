@@ -1,19 +1,16 @@
 package li.chtoes.whatif;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
-import java.io.IOException;
-import java.util.List;
 
 
 public class ArticleActivity extends ActionBarActivity {
@@ -37,14 +34,9 @@ public class ArticleActivity extends ActionBarActivity {
 
         App.mainActivity = this;
 
-        try {
-            List<ArticleInfo> i = App.API.getArticleInfos();
-            openArticle(i.get(0));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         initButtons();
+
+        openArticle(App.API.getArticleInfoByIndex(0));
     }
 
     private void initButtons() {
@@ -117,6 +109,20 @@ public class ArticleActivity extends ActionBarActivity {
 
     public void openArticle(ArticleInfo info) {
         currentArticle = info;
+
+        boolean isLast = App.API.getLastArticleInfo().getId().equals(info.getId());
+        lastButton.setClickable(!isLast);
+        lastButton.setTextColor(isLast ? Color.GRAY : Color.BLACK);
+        nextButton.setClickable(!isLast);
+        nextButton.setTextColor(isLast ? Color.GRAY : Color.BLACK);
+
+        boolean isFirst = App.API.getFirstArticleInfo().getId().equals(info.getId());
+        firstButton.setClickable(!isFirst);
+        prevButton.setClickable(!isFirst);
+        firstButton.setTextColor(isFirst ? Color.GRAY : Color.BLACK);
+        prevButton.setTextColor(isFirst ? Color.GRAY : Color.BLACK);
+
+        articlesListButton.setText("#" + (info.getIndex() + 1));
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
