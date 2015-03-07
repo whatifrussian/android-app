@@ -125,6 +125,11 @@ public class App {
             return getArticleInfoByIndex(0);
         }
 
+        /**
+         * Easy method for getting {@link li.chtoes.whatif.ArticleInfo} by its special index
+         * @param index unique index of {@link li.chtoes.whatif.ArticleInfo}
+         * @return necessary ArticleInfo f it exists or {@link li.chtoes.whatif.ArticleInfo#EMPTY}
+         */
         public static ArticleInfo getArticleInfoByIndex(int index) {
             try {
                 List<ArticleInfo> infos = getArticleInfos();
