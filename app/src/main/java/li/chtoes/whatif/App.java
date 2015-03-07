@@ -99,7 +99,7 @@ public class App {
          * @return info about last article or {@link li.chtoes.whatif.ArticleInfo#EMPTY} if
          * IOException occurred
          */
-        public static ArticleInfo geLastArticleInfo() {
+        public static ArticleInfo getLastArticleInfo() {
             try {
                 List<ArticleInfo> infos = getArticleInfos();
                 return infos.get(infos.size() - 1);
