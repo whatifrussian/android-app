@@ -197,7 +197,7 @@ public class App {
 
             try {
                 for (ArticleInfo a : getArticleInfos()) {
-                    titles.add(a.getTitle());
+                    titles.add(a.getIndex() + ". " + a.getTitle());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
