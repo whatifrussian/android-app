@@ -11,9 +11,9 @@ public class ArticleInfo {
 
     private String id;         // Id of article, e.g. "microwaves"
     private String title;      // Title of article, e.g. "Микроволны"
-    private int number;        // Index in array
+    private int index;        // Index in array
 
-    public ArticleInfo() { id = ""; title = ""; number = -1; }
+    public ArticleInfo() { id = ""; title = ""; index = -1; }
 
     public ArticleInfo(String id, String title) {
         this.id = id;
@@ -61,11 +61,11 @@ public class ArticleInfo {
         return String.format("Title: %1$s ID: %2$s", getTitle(), getId());
     }
 
-    public int getNumber() {
-        return number;
+    public int getIndex() {
+        return index;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setIndex(int index) {
+        this.index = index;
     }
 }
