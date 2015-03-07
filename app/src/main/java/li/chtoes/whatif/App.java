@@ -61,7 +61,7 @@ public class App {
                 jsonReader.beginArray();
                 while (jsonReader.hasNext()) {
                     ArticleInfo articleInfo = ArticleInfo.fromJsonReader(jsonReader);
-                    articleInfo.setNumber(infos.size());
+                    articleInfo.setIndex(infos.size());
 
                     infos.add(articleInfo);
                 }
@@ -103,9 +103,32 @@ public class App {
          * IOException occurred
          */
         public static ArticleInfo getLastArticleInfo() {
+            return getArticleInfoByIndex(getLastIndex());
+        }
+
+        
+        private static int getLastIndex() {
+            //I will save last index to android settings soon
+
+            return getArticlesCount() - 1;
+        }
+
+        /**
+         * @return info about first article or {@link li.chtoes.whatif.ArticleInfo#EMPTY} if
+         * IOException occurred
+         */
+        public static ArticleInfo getFirstArticleInfo() {
+            return getArticleInfoByIndex(0);
+        }
+
+        public static ArticleInfo getArticleInfoByIndex(int index) {
             try {
                 List<ArticleInfo> infos = getArticleInfos();
-                return infos.get(infos.size() - 1);
+                for (ArticleInfo a : infos) {
+                    if (a.getIndex() == index) {
+                        return a;
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
