@@ -23,6 +23,7 @@ public class ArticleActivity extends ActionBarActivity {
     private Button nextButton;
     private Button lastButton;
 
+    private static ArticleInfo currentArticle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,10 @@ public class ArticleActivity extends ActionBarActivity {
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int index = currentArticle.getIndex() - 1;
+                ArticleInfo info = App.API.getArticleInfoByIndex(index);
+
+                openArticle(info);
             }
         } );
         articlesListButton.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +78,10 @@ public class ArticleActivity extends ActionBarActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int index = currentArticle.getIndex() + 1;
+                ArticleInfo info = App.API.getArticleInfoByIndex(index);
+
+                openArticle(info);
             }
         } );
         lastButton.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +96,7 @@ public class ArticleActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_article, menu);
+
         return true;
     }
 
@@ -106,6 +116,8 @@ public class ArticleActivity extends ActionBarActivity {
     }
 
     public void openArticle(ArticleInfo info) {
+        currentArticle = info;
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
 
