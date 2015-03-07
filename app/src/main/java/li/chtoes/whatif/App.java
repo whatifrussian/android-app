@@ -72,7 +72,7 @@ public class App {
 
         /**
          * Get json of articles
-         * @return json string
+         * @return json string that contains article infos
          */
         private static String getArticleInfosJSON() {
             return  "[ " +
@@ -81,6 +81,32 @@ public class App {
                     "]";
 
             //return GetHTML.get(ARTICLES_URL);
+        }
+
+        /**
+         * @return articles count or zero, if IOException occurred
+         */
+        public static int getArticlesCount() {
+            try {
+                return getArticleInfos().size();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
+
+        /**
+         * @return info about last article or {@link li.chtoes.whatif.ArticleInfo#EMPTY} if
+         * IOException occurred
+         */
+        public static ArticleInfo geLastArticleInfo() {
+            try {
+                return getArticleInfos().get(getArticlesCount() - 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return ArticleInfo.EMPTY;
         }
 
         /**
