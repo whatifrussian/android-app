@@ -6,6 +6,9 @@ import java.io.IOException;
 
 //Basic info about article
 public class ArticleInfo {
+    public static ArticleInfo EMPTY = new ArticleInfo("", "");
+
+
     private String id;         // Id of article, e.g. "microwaves"
     private String title;      // Title of article, e.g. "Микроволны"
 
