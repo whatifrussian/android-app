@@ -106,7 +106,7 @@ public class App {
             return getArticleInfoByIndex(getLastIndex());
         }
 
-        
+
         private static int getLastIndex() {
             //I will save last index to android settings soon
 
