@@ -101,7 +101,8 @@ public class App {
          */
         public static ArticleInfo geLastArticleInfo() {
             try {
-                return getArticleInfos().get(getArticlesCount() - 1);
+                List<ArticleInfo> infos = getArticleInfos();
+                return infos.get(infos.size() - 1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
