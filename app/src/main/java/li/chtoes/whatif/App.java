@@ -184,6 +184,24 @@ public class App {
         }
 
         /**
+         * Quick method for {@link li.chtoes.whatif.ArticlesListActivity}
+         * @return all {@link li.chtoes.whatif.Article}s titles
+         */
+        public static List<String> getArticlesTitles() {
+            List<String> titles = new ArrayList<String>();
+
+            try {
+                for (ArticleInfo a : getArticleInfos()) {
+                    titles.add(a.getTitle());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return titles;
+        }
+
+        /**
          * This class used for synced getting html in android
          * In android you can't freeze main thread with GET requests
          * So I сreated this cheat
