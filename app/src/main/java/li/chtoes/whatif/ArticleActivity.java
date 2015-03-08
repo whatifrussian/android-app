@@ -36,7 +36,7 @@ public class ArticleActivity extends ActionBarActivity {
             actionBar.setIcon(R.drawable.ic_actionbar_icon);
         }
 
-        App.mainActivity = this;
+        App.setActivity(this);
 
         final TypedArray styledAttributes = getTheme().obtainStyledAttributes(
                 new int[] { android.R.attr.actionBarSize });

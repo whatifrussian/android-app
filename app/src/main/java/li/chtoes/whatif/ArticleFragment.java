@@ -94,7 +94,7 @@ public class ArticleFragment extends Fragment {
         //title.setText(article.getTitle());
 
         content.getSettings().setJavaScriptEnabled(true);
-        content.loadDataWithBaseURL(App.API.MAIN_SITE_URL,
+        content.loadDataWithBaseURL(App.articlesDirectory,
                                     article.getContent(),
                                     "text/html",
                                     "UTF-8", "");

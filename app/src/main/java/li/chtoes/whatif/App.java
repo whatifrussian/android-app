@@ -9,13 +9,20 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +35,26 @@ public class App {
     public static final String TAG = "whatif";
     public static ArticleActivity mainActivity;
 
+
+    public static String articlesDirectory;
+
+    public static void setActivity(ArticleActivity activity) {
+        mainActivity = activity;
+        File dir = mainActivity.getExternalFilesDir(null);
+        if (dir != null) {
+            articlesDirectory = dir.toString() + "/.nomedia/";
+        } else {
+            articlesDirectory = mainActivity.getCacheDir().toString() + "/.whatif/";
+        }
+    }
+
     /**
      * Class for chtoes.li API
      */
     public static class API {
-        public static final String MAIN_SITE_URL = "https://chtoes.li/";
-        public static final String ARTICLES_URL = MAIN_SITE_URL + "articles.json";
-        public static final String ARTICLE_TEMPLATE = MAIN_SITE_URL + "%1$s/";
+        public static final String MAIN_SITE_URL = "https://chtoes.li";
+        public static final String ARTICLES_URL = MAIN_SITE_URL + "/articles.json";
+        public static final String ARTICLE_TEMPLATE = MAIN_SITE_URL + "/%1$s/";
 
         private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
@@ -167,6 +187,12 @@ public class App {
                                                      "div[class^=social]");
                      forRemove.remove();
 
+                     try {
+                         saveDocument(doc, App.articlesDirectory + "/" + info.getId());
+                     } catch (IOException e) {
+                         e.printStackTrace();
+                     }
+
                      return doc.html();
                  }
 
@@ -204,6 +230,37 @@ public class App {
             }
 
             return titles;
+        }
+
+        /**
+         *  My method for saving article to filesystem
+         *
+         * @param doc document to save
+         * @param folderPath folder where all files will be saved
+         */
+        public static void saveDocument(Document doc, String folderPath) throws IOException {
+            File dir = new File(folderPath);
+            File indexFile = new File(dir, "index.html");
+
+            dir.mkdirs();
+            if (!indexFile.exists()) {
+                indexFile.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(indexFile.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(doc.html());
+            bw.close();
+
+            Elements images = doc.select("img");
+
+            for (Element e : images) {
+                String url = MAIN_SITE_URL + e.attr("src");
+                String name = url.substring(url.lastIndexOf("/") + 1);
+
+                e.attr("src", dir.toURI() + "/" + name);
+                GetHTML.downloadImage(url, dir, name);
+            }
         }
 
         /**
@@ -271,6 +328,29 @@ public class App {
                 super.onPostExecute(s);
 
                 response = s;
+            }
+
+            public static void downloadImage(String link, File dir, String name) throws IOException {
+                URL url = new URL(link);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+
+                File file = new File(dir, name);
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+
+                FileOutputStream fileOutput = new FileOutputStream(file);
+                InputStream inputStream = urlConnection.getInputStream();
+                byte[] buffer = new byte[1024];
+                int bufferLength;
+
+                while ((bufferLength = inputStream.read(buffer)) > 0) {
+                    fileOutput.write(buffer, 0, bufferLength);
+                }
+
+                fileOutput.close();
             }
         }
     }
