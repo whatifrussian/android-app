@@ -1,6 +1,7 @@
 package li.chtoes.whatif;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +16,9 @@ import android.widget.Button;
 
 public class ArticleActivity extends ActionBarActivity {
     private static final int REQUEST_CODE_GET_NUMBER = 1;
+    private static int ACTION_BAR_HEIGHT = 0;
+
+    private boolean isActionBarHided = false;
 
     private Button firstButton;
     private Button prevButton;
@@ -35,6 +39,11 @@ public class ArticleActivity extends ActionBarActivity {
         }
 
         App.mainActivity = this;
+
+        final TypedArray styledAttributes = getTheme().obtainStyledAttributes(
+                new int[] { android.R.attr.actionBarSize });
+        ACTION_BAR_HEIGHT = (int) styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
 
         initButtons();
 
@@ -145,5 +154,21 @@ public class ArticleActivity extends ActionBarActivity {
         transaction.addToBackStack(null);
 
         transaction.commitAllowingStateLoss();
+    }
+
+    public void onScroll(int delta, int currentY) {
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar == null) { return; }
+
+        boolean toHight = currentY < ACTION_BAR_HEIGHT;
+
+        if (isActionBarHided && !actionBar.isShowing() && (toHight || delta < -15)) {
+            isActionBarHided = false;
+            actionBar.show();
+        } else if (delta > 15 && !isActionBarHided && actionBar.isShowing() && !toHight) {
+            actionBar.hide();
+            isActionBarHided = true;
+        }
     }
 }

@@ -61,6 +61,17 @@ public class ArticleFragment extends Fragment {
         //title = (TextView)v.findViewById(R.id.article_title);
         content = (ObservableWebView)v.findViewById(R.id.article_content);
 
+        ObservableWebView.OnScrollChangedCallback onScroll;
+        content.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
+            private int oldY = 0;
+
+            @Override
+            public void onScroll(int x, int y) {
+                App.mainActivity.onScroll(y - oldY, y);
+                oldY = y;
+            }
+        });
+
         return v;
     }
 
