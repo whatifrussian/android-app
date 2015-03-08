@@ -3,6 +3,9 @@ package li.chtoes.whatif;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -24,6 +27,13 @@ public class ArticlesListActivity extends ListActivity {
                 android.R.layout.simple_list_item_1, articlesArray);
 
         setListAdapter(adapter);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.list_activity_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
