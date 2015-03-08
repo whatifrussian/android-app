@@ -161,7 +161,7 @@ public class ArticleActivity extends ActionBarActivity {
 
         if (actionBar == null) { return; }
 
-        if (currentY < ACTION_BAR_HEIGHT && currentY - delta => ACTION_BAR_HEIGHT) {
+        if (currentY < 2) {
             actionBar.show();
         }
 
