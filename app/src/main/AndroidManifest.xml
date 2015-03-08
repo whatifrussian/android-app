@@ -19,7 +19,8 @@
 
         <activity
             android:name=".ArticlesListActivity"
-            android:label="@string/articles_list_name" />
+            android:label="@string/articles_list_name"
+            android:parentActivityName=".ArticleActivity" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
