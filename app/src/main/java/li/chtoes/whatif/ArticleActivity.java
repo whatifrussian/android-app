@@ -161,14 +161,12 @@ public class ArticleActivity extends ActionBarActivity {
 
         if (actionBar == null) { return; }
 
-        boolean toHight = currentY < ACTION_BAR_HEIGHT;
-
-        if (isActionBarHided && !actionBar.isShowing() && (toHight || delta < -15)) {
-            isActionBarHided = false;
+        if (currentY < ACTION_BAR_HEIGHT && currentY - delta => ACTION_BAR_HEIGHT) {
             actionBar.show();
-        } else if (delta > 15 && !isActionBarHided && actionBar.isShowing() && !toHight) {
+        }
+
+        if (currentY > ACTION_BAR_HEIGHT * 3 && currentY - delta <= ACTION_BAR_HEIGHT * 3) {
             actionBar.hide();
-            isActionBarHided = true;
         }
     }
 }
