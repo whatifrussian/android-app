@@ -18,8 +18,6 @@ public class ArticleActivity extends ActionBarActivity {
     private static final int REQUEST_CODE_GET_NUMBER = 1;
     private static int ACTION_BAR_HEIGHT = 0;
 
-    private boolean isActionBarHided = false;
-
     private Button firstButton;
     private Button prevButton;
     private Button articlesListButton;
